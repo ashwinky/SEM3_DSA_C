@@ -1,7 +1,3 @@
-//
-// Created by maximousblk on 04/08/2022.
-//
-
 #ifndef SEM3_DSA_C_SEARCH_H
 #define SEM3_DSA_C_SEARCH_H
 

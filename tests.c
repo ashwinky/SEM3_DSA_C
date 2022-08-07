@@ -1,7 +1,3 @@
-//
-// Created by maximousblk on 04/08/2022.
-//
-
 #define TEST(tests...)                                                         \
   int main() {                                                                 \
     int failed = 0;                                                            \
