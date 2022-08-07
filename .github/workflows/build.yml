@@ -6,25 +6,23 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  BUILD_TYPE: "Debug"
+
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        os: [ "ubuntu-latest", "windows-latest", "macos-latest" ]
-        type: [ "Debug", "Release" ]
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
       - name: Configure CMake
-        run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ matrix.type }}
+        run: cmake -B ${{ github.workspace }}/build -DCMAKE_BUILD_TYPE=${{ env.BUILD_TYPE }}
 
       - name: Build
-        run: cmake --build ${{ github.workspace }}/build --config ${{ matrix.type }}
+        run: cmake --build ${{ github.workspace }}/build --config ${{ env.BUILD_TYPE }}
 
       - name: Test
         working-directory: ${{ github.workspace }}/build
-        run: ctest --extra-verbose -C ${{ matrix.type }}
+        run: ctest --extra-verbose -C ${{ env.BUILD_TYPE }}
