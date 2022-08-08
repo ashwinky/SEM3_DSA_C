@@ -92,4 +92,15 @@ TEST({
       ASSERT(arr[i], i);
     }
   });
+
+  UNIT("selection sort: ascending", {
+    int arr[] = {3, 2, 1, 4, 0};
+
+    int size = sizeof(arr) / sizeof(arr[0]);
+    ssort(arr, size);
+
+    for (int i = 0; i < size; i++) {
+      ASSERT(arr[i], i);
+    }
+  });
 })
