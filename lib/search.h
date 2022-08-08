@@ -1,13 +1,32 @@
 #ifndef SEM3_DSA_C_SEARCH_H
 #define SEM3_DSA_C_SEARCH_H
 
-#include <stdio.h>
+// Linear Search
+// Time Complexity: O(n)
+// Space Complexity: O(1)
+// This algorithm will find the index of the given target in the array.
+int lsearch(const int array[], int size, int target) {
+  int result = -1; // assume not found
+
+  // loop through the array from [0..N]
+  for (int i = 0; i < size; i++) {
+
+    // if item is equal to current element
+    if (array[i] == target) {
+      result = i; // set the result index
+      break;      // exit loop
+    }
+  }
+
+  // return the result index
+  return result;
+}
 
 // Binary Search
 // Time Complexity: O(log n)
 // Space Complexity: O(1)
-// Assuming the array is sorted, this algorithm will find the index of the given
-// target in the array.
+// Assuming the array is sorted, this algorithm will
+// find the index of the given target in the array.
 int bsearch(const int array[], int size, int target) {
 
   // Start from [0..N]
@@ -24,7 +43,7 @@ int bsearch(const int array[], int size, int target) {
     // if item is equal to mid-element
     if (target == array[mid]) {
       result = mid;
-      break; // found
+      break; // exit loop
     }
     // if item is lesser than mid-element
     else if (array[mid] > target) {
@@ -36,21 +55,6 @@ int bsearch(const int array[], int size, int target) {
     }
   }
 
-  return result;
-}
-
-// Linear Search
-// Time Complexity: O(n)
-// Space Complexity: O(1)
-// This algorithm will find the index of the given target in the array.
-int lsearch(const int array[], int size, int target) {
-  int result = -1; // assume not found
-  for (int i = 0; i < size; i++) {
-    if (array[i] == target) {
-      result = i;
-      break;
-    }
-  }
   return result;
 }
 

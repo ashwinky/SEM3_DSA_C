@@ -1,14 +1,12 @@
 #define TEST(tests...)                                                         \
   int main() {                                                                 \
     int failed = 0;                                                            \
-                                                                               \
     tests;                                                                     \
-                                                                               \
     if (failed) {                                                              \
-      printf("\x1B[0m\n\x1B[31m%d TESTS FAILED\n", failed);                    \
+      printf("\n\x1B[31m%d TESTS FAILED\x1B[0m\n", failed);                    \
       return 1;                                                                \
     } else {                                                                   \
-      printf("\x1B[0m\n\x1B[32mALL TESTS PASSED\n");                           \
+      printf("\n\x1B[32mALL TESTS PASSED\x1B[0m\n");                           \
       return 0;                                                                \
     }                                                                          \
   }
@@ -16,23 +14,25 @@
 #define UNIT(name, expr...)                                                    \
   {                                                                            \
     char testname[] = name;                                                    \
-                                                                               \
+    int unitfailed = 0;                                                        \
     expr;                                                                      \
+    if (unitfailed) {                                                          \
+      printf("\x1B[31m[FAILED] %s\x1B[0m\n", testname);                        \
+      failed++;                                                                \
+    } else {                                                                   \
+      printf("\x1B[32m[PASSED] %s\x1B[0m\n", testname);                        \
+    }                                                                          \
   }
 
 #define ASSERT(A, B)                                                           \
-  if (A == B) {                                                                \
-    printf("\x1B[32mPASS: %s\x1B[0m\n", testname);                             \
-  } else {                                                                     \
-    printf("\x1B[31mFAIL: %s\x1B[0m\n", testname);                             \
-    printf("\t\x1B[31mExpected: %d\x1B[0m\n", B);                              \
-    printf("\t\x1B[31mGot: %d\x1B[0m\n", A);                                   \
-    failed++;                                                                  \
+  if (A != B) {                                                                \
+    unitfailed++;                                                              \
   }
 
 #include <stdio.h>
 
 #include "lib/search.h"
+#include "lib/sort.h"
 
 TEST({
   UNIT("linear search: element found", {
@@ -69,5 +69,16 @@ TEST({
     int result = bsearch(arr, size, 11);
 
     ASSERT(result, -1);
+  });
+
+  UNIT("bubble sort: ascending", {
+    int arr[] = {3, 2, 1, 4, 0};
+
+    int size = sizeof(arr) / sizeof(arr[0]);
+    bsort(arr, size);
+
+    for (int i = 0; i < size; i++) {
+      ASSERT(arr[i], i);
+    }
   });
 })
