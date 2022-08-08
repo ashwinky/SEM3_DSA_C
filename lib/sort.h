@@ -19,4 +19,23 @@ void bsort(int array[], int size) {
   }
 }
 
+// Insertion Sort
+// Time Complexity: O(n^2)
+// Space Complexity: O(1)
+// This algorithm will sort the array in ascending order,
+// using the insertion sort algorithm.
+void isort(int array[], int size) {
+  int temp;
+  // Loop through the array
+  for (int i = 1; i < size; i++) {
+    for (int j = i; j > 0; j--) {
+      if (array[j] < array[j - 1]) {
+        temp = array[j];
+        array[j] = array[j - 1];
+        array[j - 1] = temp;
+      }
+    }
+  }
+}
+
 #endif // SEM3_DSA_C_SORT_H

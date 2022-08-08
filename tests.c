@@ -81,4 +81,15 @@ TEST({
       ASSERT(arr[i], i);
     }
   });
+
+  UNIT("insertion sort: ascending", {
+    int arr[] = {3, 2, 1, 4, 0};
+
+    int size = sizeof(arr) / sizeof(arr[0]);
+    isort(arr, size);
+
+    for (int i = 0; i < size; i++) {
+      ASSERT(arr[i], i);
+    }
+  });
 })
