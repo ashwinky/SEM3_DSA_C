@@ -17,6 +17,9 @@ jobs:
       - name: Setup Just
         uses: extractions/setup-just@v1
 
+      - name: Setup Ninja
+        uses: seanmiddleditch/gha-setup-ninja@master
+
       - name: Configure CMake
         run: just setup
 
