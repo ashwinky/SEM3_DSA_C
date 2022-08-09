@@ -10,10 +10,10 @@ setup-release:
     cmake -DCMAKE_BUILD_TYPE=Release "-DCMAKE_MAKE_PROGRAM=ninja.exe" -G Ninja -S . -B ./cmake-build-release
 
 build:
-    cmake --build ./cmake-build-debug --config Debug
+    cmake --build ./cmake-build-debug --config Debug --clean-first
 
 build-release:
-    cmake --build ./cmake-build-release --config Release
+    cmake --build ./cmake-build-release --config Release --clean-first
 
 test: build
     ctest --output-on-failure -C Debug --test-dir ./cmake-build-debug
