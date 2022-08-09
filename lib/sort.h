@@ -6,7 +6,7 @@
 // Space Complexity: O(1)
 // This algorithm will sort the array in ascending order,
 // using the bubble sort algorithm.
-void bsort(int array[], int size) {
+void bubble_sort(int array[], int size) {
   int temp;
   for (int i = 0; i < size; i++) {
     for (int j = 0; j < size - 1; j++) {
@@ -24,7 +24,7 @@ void bsort(int array[], int size) {
 // Space Complexity: O(1)
 // This algorithm will sort the array in ascending order,
 // using the insertion sort algorithm.
-void isort(int array[], int size) {
+void insertion_sort(int array[], int size) {
   int temp;
   // Loop through the array
   for (int i = 1; i < size; i++) {
@@ -43,7 +43,7 @@ void isort(int array[], int size) {
 // Space Complexity: O(1)
 // This algorithm will sort the array in ascending order,
 // using the selection sort algorithm.
-void ssort(int array[], int size) {
+void selection_sort(int array[], int size) {
   int temp;
   for (int i = 0; i < size; i++) {
     int min = i;

@@ -5,7 +5,7 @@
 // Time Complexity: O(n)
 // Space Complexity: O(1)
 // This algorithm will find the index of the given target in the array.
-int lsearch(const int array[], int size, int target) {
+int linear_search(const int array[], int size, int target) {
   int result = -1; // assume not found
 
   // loop through the array from [0..N]
@@ -27,7 +27,7 @@ int lsearch(const int array[], int size, int target) {
 // Space Complexity: O(1)
 // Assuming the array is sorted, this algorithm will
 // find the index of the given target in the array.
-int bsearch(const int array[], int size, int target) {
+int binary_search(const int array[], int size, int target) {
 
   // Start from [0..N]
   int min = 0;

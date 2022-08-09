@@ -39,7 +39,7 @@ TEST({
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     int size = sizeof(arr) / sizeof(arr[0]);
-    int result = lsearch(arr, size, 5);
+    int result = linear_search(arr, size, 5);
 
     ASSERT(result, 4);
   });
@@ -48,7 +48,7 @@ TEST({
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     int size = sizeof(arr) / sizeof(arr[0]);
-    int result = lsearch(arr, size, 11);
+    int result = linear_search(arr, size, 11);
 
     ASSERT(result, -1);
   });
@@ -57,7 +57,7 @@ TEST({
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     int size = sizeof(arr) / sizeof(arr[0]);
-    int result = bsearch(arr, size, 5);
+    int result = binary_search(arr, size, 5);
 
     ASSERT(result, 4);
   });
@@ -66,7 +66,7 @@ TEST({
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     int size = sizeof(arr) / sizeof(arr[0]);
-    int result = bsearch(arr, size, 11);
+    int result = binary_search(arr, size, 11);
 
     ASSERT(result, -1);
   });
@@ -75,7 +75,7 @@ TEST({
     int arr[] = {3, 2, 1, 4, 0};
 
     int size = sizeof(arr) / sizeof(arr[0]);
-    bsort(arr, size);
+    bubble_sort(arr, size);
 
     for (int i = 0; i < size; i++) {
       ASSERT(arr[i], i);
@@ -86,7 +86,7 @@ TEST({
     int arr[] = {3, 2, 1, 4, 0};
 
     int size = sizeof(arr) / sizeof(arr[0]);
-    isort(arr, size);
+    insertion_sort(arr, size);
 
     for (int i = 0; i < size; i++) {
       ASSERT(arr[i], i);
@@ -97,7 +97,7 @@ TEST({
     int arr[] = {3, 2, 1, 4, 0};
 
     int size = sizeof(arr) / sizeof(arr[0]);
-    ssort(arr, size);
+    selection_sort(arr, size);
 
     for (int i = 0; i < size; i++) {
       ASSERT(arr[i], i);
