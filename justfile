@@ -1,12 +1,9 @@
 set windows-powershell := true
 
-default:
-    just --choose
-
-setup:
+setup: && build
     cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=ninja -DCMAKE_C_COMPILER=gcc -G Ninja -S . -B ./cmake-build-debug
 
-setup-release:
+setup-release: && build-release
     cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=ninja -DCMAKE_C_COMPILER=gcc -G Ninja -S . -B ./cmake-build-release
 
 build:
