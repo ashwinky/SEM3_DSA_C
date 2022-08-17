@@ -18,8 +18,8 @@ test: build
 test-release: build-release
     ctest --output-on-failure -C Release --test-dir ./cmake-build-release
 
-run: build
-    ./cmake-build-debug/main.exe
+run target='main': build
+    ./cmake-build-debug/{{target}}
 
-run-release: build-release
-    ./cmake-build-release/main.exe
+run-release target='main': build-release
+    ./cmake-build-release/{{target}}
