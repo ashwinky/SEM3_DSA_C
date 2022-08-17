@@ -26,13 +26,13 @@ just build
 ### Tests
 
 ```sh
-# Run all tests in tests.c
+# Run tests
 just test
 ```
 
 ### Run
 
 ```sh
-# runs main.c
-just run
+# runs the specified executable
+just run <executable>
 ```
