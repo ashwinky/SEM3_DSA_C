@@ -12,11 +12,16 @@ target_include_directories(LIB PUBLIC ${PROJECT_SOURCE_DIR}/lib)
 
 # Add executables
 add_executable(main main.c)
+file(GLOB SOURCE_FILES RELATIVE ${PROJECT_SOURCE_DIR}/examples examples/*.c)
+foreach (SOURCE ${SOURCE_FILES})
+    string(REPLACE ".c" "" BIN ${SOURCE})
+    add_executable(${BIN} examples/${SOURCE})
+    target_link_libraries(${BIN} LIB)
+endforeach ()
 
 
 # Add tests
 add_executable(tests tests.c)
 target_link_libraries(tests LIB)
 add_test(tests tests)
-
 enable_testing()
