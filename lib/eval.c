@@ -12,6 +12,7 @@ char pop(char stack[], int size) {
   return value;
 }
 
+// Returns the precedence weight of the operator.
 int precedence(char c) {
   if (c == '^') {
     // highest precedence
@@ -28,6 +29,18 @@ int precedence(char c) {
   }
 }
 
+/*
+ * Infix to Postfix
+ * This algorithm will convert the infix expression to postfix expression.
+ *
+ * Time Complexity: O(n)
+ * Space Complexity: O(n)
+ * Example: A+(B*C-(D/E^F)*G)*H => ABC*DEF^/G*-H*
+ *
+ * @param infix - the infix expression
+ * @param postfix - the postfix expression
+ * @param dbg - whether to print debug messages
+ */
 void infixToPostfix(const char infix[], char postfix[]) {
   char stack[100] = "";  // stack for operators
   int size = 0;          // size of stack

@@ -1,5 +1,12 @@
 #include "sort.h"
 
+/*
+ * Bubble Sort
+ * Time Complexity: O(n^2)
+ * Space Complexity: O(1)
+ * This algorithm will sort the array in ascending order,
+ * using the bubble sort algorithm.
+ */
 void bubble_sort(int array[], int size) {
   int temp;
   for (int i = 0; i < size; i++) {
@@ -13,6 +20,13 @@ void bubble_sort(int array[], int size) {
   }
 }
 
+/*
+ * Insertion Sort
+ * Time Complexity: O(n^2)
+ * Space Complexity: O(1)
+ * This algorithm will sort the array in ascending order,
+ * using the insertion sort algorithm.
+ */
 void insertion_sort(int array[], int size) {
   int temp;
   // Loop through the array
@@ -27,6 +41,13 @@ void insertion_sort(int array[], int size) {
   }
 }
 
+/*
+ * Selection Sort
+ * Time Complexity: O(n^2)
+ * Space Complexity: O(1)
+ * This algorithm will sort the array in ascending order,
+ * using the selection sort algorithm.
+ */
 void selection_sort(int array[], int size) {
   int temp;
   for (int i = 0; i < size; i++) {
