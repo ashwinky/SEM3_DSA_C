@@ -14,18 +14,19 @@ char pop(char stack[], int size) {
 
 // Returns the precedence weight of the operator.
 int precedence(char c) {
-  if (c == '^') {
-    // highest precedence
-    return 3;
-  } else if (c == '/' || c == '*') {
-    // medium precedence
-    return 2;
-  } else if (c == '+' || c == '-') {
-    // lowest precedence
-    return 1;
-  } else {
-    // invalid operator
-    return 0;
+  switch (c) {
+    case '^':
+      return 5;
+    case '/':
+      return 4;
+    case '*':
+      return 3;
+    case '+':
+      return 2;
+    case '-':
+      return 1;
+    default:
+      return 0;
   }
 }
 
@@ -77,7 +78,7 @@ void infixToPostfix(const char infix[], char postfix[]) {
       // if current char is an operator,
       // pop all operators until stack is empty or current operator has lower
       // precedence than top of stack
-      while (size > 0 && precedence(c) <= precedence(stack[size - 1])) {
+      while (size > 0 && precedence(c) < precedence(stack[size - 1])) {
         postfix[j] =
             pop(stack, size);  // pop operator from stack and add to postfix
         j++;
