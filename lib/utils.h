@@ -9,17 +9,15 @@
 #define D(x...)
 #endif  // DEBUG
 
-#define TEST(tests...)                                      \
-  int main() {                                              \
-    int failed = 0;                                         \
-    tests;                                                  \
-    if (failed) {                                           \
-      printf("\n\x1B[31m%d TESTS FAILED\x1B[0m\n", failed); \
-      return 1;                                             \
-    } else {                                                \
-      printf("\n\x1B[32mALL TESTS PASSED\x1B[0m\n");        \
-      return 0;                                             \
-    }                                                       \
+#define TEST(tests...) \
+  int main() {         \
+    int failed = 0;    \
+    tests;             \
+    if (failed) {      \
+      return 1;        \
+    } else {           \
+      return 0;        \
+    }                  \
   }
 
 #define UNIT(name, expr...)                             \

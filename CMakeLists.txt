@@ -21,7 +21,11 @@ endforeach ()
 
 
 # Add tests
-add_executable(tests tests.c)
-target_link_libraries(tests LIB)
-add_test(tests tests)
+file(GLOB TEST_FILES RELATIVE ${PROJECT_SOURCE_DIR}/lib lib/*.test.c)
+foreach (TEST_SOURCE ${TEST_FILES})
+    string(REPLACE ".test.c" "" TEST ${TEST_SOURCE})
+    add_executable(test_${TEST} lib/${TEST_SOURCE})
+    target_link_libraries(test_${TEST} LIB)
+    add_test(${TEST} test_${TEST})
+endforeach ()
 enable_testing()
