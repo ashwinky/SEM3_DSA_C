@@ -77,7 +77,7 @@ void infixToPostfix(const char infix[], char postfix[]) {
       // if current char is an operator,
       // pop all operators until stack is empty or current operator has lower
       // precedence than top of stack
-      while (size > 0 && precedence(c) <= precedence(stack[size - 1])) {
+      while (size > 0 && precedence(c) < precedence(stack[size - 1])) {
         postfix[j] =
             pop(stack, size);  // pop operator from stack and add to postfix
         j++;
