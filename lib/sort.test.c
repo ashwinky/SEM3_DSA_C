@@ -5,8 +5,8 @@
 
 #include "utils.h"
 
-TEST({
-  UNIT("bubble sort: ascending", {
+TEST("sort", {
+  UNIT("bubble: ascending", {
     int arr[] = {3, 2, 1, 4, 0};
 
     int size = sizeof(arr) / sizeof(arr[0]);
@@ -17,7 +17,7 @@ TEST({
     }
   });
 
-  UNIT("insertion sort: ascending", {
+  UNIT("insertion: ascending", {
     int arr[] = {3, 2, 1, 4, 0};
 
     int size = sizeof(arr) / sizeof(arr[0]);
@@ -28,7 +28,7 @@ TEST({
     }
   });
 
-  UNIT("selection sort: ascending", {
+  UNIT("selection: ascending", {
     int arr[] = {3, 2, 1, 4, 0};
 
     int size = sizeof(arr) / sizeof(arr[0]);

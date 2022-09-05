@@ -5,8 +5,8 @@
 
 #include "utils.h"
 
-TEST({
-  UNIT("eval: simple expression", {
+TEST("eval", {
+  UNIT("simple expression", {
     char infix[] = "A+B";
     char postfix[4];
 
@@ -19,7 +19,7 @@ TEST({
     }
   });
 
-  UNIT("eval: complex expression", {
+  UNIT("complex expression", {
     char infix[] = "A+B*C-(D/E^F)*G";
     char postfix[20];
 

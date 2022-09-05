@@ -4,8 +4,8 @@
 
 #include "utils.h"
 
-TEST({
-  UNIT("linear search: element found", {
+TEST("search", {
+  UNIT("linear: element found", {
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     int size = sizeof(arr) / sizeof(arr[0]);
@@ -14,7 +14,7 @@ TEST({
     ASSERT(result, 4);
   });
 
-  UNIT("linear search: element not found", {
+  UNIT("linear: element not found", {
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     int size = sizeof(arr) / sizeof(arr[0]);
@@ -23,7 +23,7 @@ TEST({
     ASSERT(result, -1);
   });
 
-  UNIT("binary search: element found", {
+  UNIT("binary: element found", {
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     int size = sizeof(arr) / sizeof(arr[0]);
@@ -32,7 +32,7 @@ TEST({
     ASSERT(result, 4);
   });
 
-  UNIT("binary search: element not found", {
+  UNIT("binary: element not found", {
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     int size = sizeof(arr) / sizeof(arr[0]);
