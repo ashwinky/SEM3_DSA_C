@@ -23,3 +23,6 @@ run target='main': build
 
 run-release target='main': build-release
     ./cmake-build-release/{{target}}
+
+clean:
+    rm .\cmake-build-debug\,.\cmake-build-release\,.\build\,.\.idea\,.\.vscode\ -ErrorAction SilentlyContinue

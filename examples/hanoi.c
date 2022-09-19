@@ -3,8 +3,7 @@
 #include <stdio.h>
 
 void hanoi(int count, char source, char aux, char destination) {
-  if (count == 1) {
-    // base case
+  if (count == 1) {  // base case
     printf("Move disk 1 from %c to %c\n", source, destination);
     return;
   }
