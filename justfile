@@ -1,28 +1,19 @@
 set windows-powershell := true
 
-setup: && build
-    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=ninja -DCMAKE_C_COMPILER=gcc -G Ninja -S . -B ./cmake-build-debug
+type := "Debug"
+dir := if type == "Debug" { "cmake-build-debug" } else { "cmake-build-release" }
 
-setup-release: && build-release
-    cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_MAKE_PROGRAM=ninja -DCMAKE_C_COMPILER=gcc -G Ninja -S . -B ./cmake-build-release
+setup *FLAGS: && build
+    cmake -DCMAKE_BUILD_TYPE={{type}} -DCMAKE_MAKE_PROGRAM=ninja -DCMAKE_C_COMPILER=gcc -G Ninja -S . -B ./{{dir}} {{FLAGS}}
 
-build:
-    cmake --build ./cmake-build-debug --config Debug --clean-first
+build *FLAGS="-j 6":
+    cmake --build ./{{dir}} --config {{type}} {{FLAGS}}
 
-build-release:
-    cmake --build ./cmake-build-release --config Release --clean-first
+test *FLAGS="--output-on-failure": build
+    ctest -C {{type}} --test-dir ./{{dir}} {{FLAGS}}
 
-test: build
-    ctest --output-on-failure -C Debug --test-dir ./cmake-build-debug
-
-test-release: build-release
-    ctest --output-on-failure -C Release --test-dir ./cmake-build-release
-
-run target='main': build
-    ./cmake-build-debug/{{target}}
-
-run-release target='main': build-release
-    ./cmake-build-release/{{target}}
+run *FLAGS="main": build
+    ./cmake-build-debug/{{FLAGS}}
 
 clean:
-    rm .\cmake-build-debug\,.\cmake-build-release\,.\build\,.\.idea\,.\.vscode\ -ErrorAction SilentlyContinue
+    -rm .\cmake-build-debug\, .\cmake-build-release\, .\build\, .\.idea\, .\.vscode\ -ErrorAction SilentlyContinue -Recurse -Force -Confirm:$false

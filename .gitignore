@@ -3,6 +3,9 @@
 .vscode
 
 # build output
-cmake-build-debug
-cmake-build-release
+cmake-build*
 build
+
+# binaries
+*.exe
+*.out
