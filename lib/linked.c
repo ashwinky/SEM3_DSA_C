@@ -3,125 +3,237 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-Node *createNode(int data) {
-  Node *newNode = (Node *)malloc(sizeof(Node));
+#include "utils.h"
 
-  newNode->data = data;
-  newNode->next = NULL;
+LinkedList *createLinkedList() {
+  LinkedList *list = (LinkedList *)malloc(sizeof(LinkedList));
+  list->size = 0;
 
-  return newNode;
+  list->head = NULL;
+  list->tail = NULL;
+
+  list->_garbage = NULL;
+  list->_garbage_size = 0;
+
+  return list;
 }
 
-Node *insertTail(Node *head, int data) {
-  Node *temp = head;
-
-  while (temp->next != NULL) {
-    temp = temp->next;
+Node *createNode(LinkedList *list, int data) {
+  Node *node = NULL;
+  if (list->_garbage_size > 0) {
+    node = list->_garbage;
+    list->_garbage = list->_garbage->next;
+    list->_garbage_size--;
+  } else {
+    node = (Node *)malloc(sizeof(Node));
   }
 
-  temp->next = createNode(data);
+  node->data = data;
+  node->next = NULL;
 
-  return head;
+  return node;
 }
 
-Node *insertHead(Node *head, int data) {
-  Node *newNode = createNode(data);
+Node *insertTail(LinkedList *list, int data) {
+  Node *node = createNode(list, data);
 
-  newNode->next = head;
+  if (list->size == 0) {
+    list->head = node;
+  } else {
+    list->tail->next = node;
+  }
 
-  return newNode;
+  list->tail = node;
+  list->size++;
+  return node;
 }
 
-Node *insertAtIndex(Node *head, int data, int index) {
-  Node *newNode = createNode(data);
-  Node *temp = head;
+Node *insertHead(LinkedList *list, int data) {
+  Node *node = createNode(list, data);
+
+  if (list->size == 0) {
+    list->tail = node;
+  } else {
+    node->next = list->head;
+  }
+
+  list->head = node;
+  list->size++;
+  return node;
+}
+
+Node *insertAtIndex(LinkedList *list, int data, int index) {
+  if (index < 0 || index > list->size) {
+    D(printf("Index out of bounds"));
+    return NULL;
+  } else if (index == 0) {
+    return insertHead(list, data);  // insert at head
+  } else if (index == list->size) {
+    return insertTail(list, data);  // insert at tail
+  }
+
+  Node *node = createNode(list, data);
+  Node *prev = list->head;
 
   for (int i = 0; i < index - 1; i++) {
-    temp = temp->next;
+    prev = prev->next;
   }
 
-  newNode->next = temp->next;
-  temp->next = newNode;
+  node->next = prev->next;
+  prev->next = node;
+  list->size++;
 
-  return head;
+  return node;
 }
 
-int readTail(Node *head) {
-  Node *temp = head;
-
-  while (temp->next != NULL) {
-    temp = temp->next;
+int readTail(LinkedList *list) {
+  if (list->size == 0) {
+    D(printf("List is empty"));
+    return -1;
   }
 
-  return temp->data;
+  return list->tail->data;
 }
 
-int readHead(Node *head) { return head->data; }
+int readHead(LinkedList *list) {
+  if (list->size == 0) {
+    D(printf("List is empty"));
+    return -1;
+  }
 
-int readAtIndex(Node *head, int index) {
-  Node *temp = head;
+  return list->head->data;
+}
+
+int readAtIndex(LinkedList *list, int index) {
+  if (index < 0 || index >= list->size) {
+    D(printf("Index out of bounds"));
+    return -1;
+  }
+
+  Node *node = list->head;
 
   for (int i = 0; i < index; i++) {
-    temp = temp->next;
+    node = node->next;
   }
 
-  return temp->data;
+  return node->data;
 }
 
-Node *deleteTail(Node *head) {
-  Node *temp = head;
-
-  while (temp->next->next != NULL) {
-    temp = temp->next;
+Node *deleteTail(LinkedList *list) {
+  if (list->size == 0) {
+    D(printf("List is empty"));
+    return NULL;
   }
 
-  free(temp->next);
-  temp->next = NULL;
+  Node *node = list->tail;
 
-  return head;
+  if (list->size == 1) {
+    list->head = NULL;
+    list->tail = NULL;
+  } else {
+    Node *prev = list->head;
+
+    for (int i = 0; i < list->size - 2; i++) {
+      prev = prev->next;
+    }
+
+    prev->next = NULL;
+    list->tail = prev;
+  }
+
+  list->size--;
+
+  node->next = list->_garbage;
+  list->_garbage = node;
+  list->_garbage_size++;
+
+  return node;
 }
 
-Node *deleteHead(Node *head) {
-  Node *temp = head;
+Node *deleteHead(LinkedList *list) {
+  if (list->size == 0) {
+    D(printf("List is empty"));
+    return NULL;
+  }
 
-  head = head->next;
-  free(temp);
+  Node *node = list->head;
 
-  return head;
+  if (list->size == 1) {
+    list->head = NULL;
+    list->tail = NULL;
+  } else {
+    list->head = list->head->next;
+  }
+
+  list->size--;
+
+  node->next = list->_garbage;
+  list->_garbage = node;
+  list->_garbage_size++;
+
+  return node;
 }
 
-Node *deleteAtIndex(Node *head, int index) {
-  Node *temp = head;
+Node *deleteAtIndex(LinkedList *list, int index) {
+  if (index < 0 || index >= list->size) {
+    D(printf("Index out of bounds"));
+    return NULL;
+  } else if (index == 0) {
+    return deleteHead(list);  // delete head
+  } else if (index == list->size - 1) {
+    return deleteTail(list);  // delete tail
+  }
+
+  Node *prev = list->head;
 
   for (int i = 0; i < index - 1; i++) {
-    temp = temp->next;
+    prev = prev->next;
   }
 
-  Node *temp2 = temp->next;
+  Node *node = prev->next;
+  prev->next = node->next;
+  list->size--;
 
-  temp->next = temp->next->next;
-  free(temp2);
+  node->next = list->_garbage;
+  list->_garbage = node;
+  list->_garbage_size++;
 
-  return head;
+  return node;
 }
 
-Node *findNode(Node *head, int data) {
-  Node *temp = head;
+Node *findNode(LinkedList *list, int data) {
+  Node *node = list->head;
 
-  while (temp->data != data) {
-    temp = temp->next;
+  for (int i = 0; i < list->size; i++) {
+    if (node->data == data) {
+      return node;
+    }
+
+    node = node->next;
   }
 
-  return temp;
+  return NULL;
 }
 
-void printNodes(Node *head) {
-  Node *temp = head;
+void printNodes(LinkedList *list) {
+  Node *node = list->head;
 
-  printf("List { ");
-  while (temp != NULL) {
-    printf("%d ", temp->data);
-    temp = temp->next;
+  printf("LIST{%d}", list->size);
+
+  for (int i = 0; i < list->size; i++) {
+    printf(" -> [%d: %d]", i, node->data);
+    node = node->next;
   }
-  printf("}\n");
+
+  // print _garbage nodes
+  node = list->_garbage;
+  printf("\n\t_GARBAGE");
+  int j = 0;
+  while (node != NULL) {
+    printf(" -> [%d: %d]", j, node->data);
+    node = node->next;
+    j++;
+  }
+
+  printf("\n");
 }

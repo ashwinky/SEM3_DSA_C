@@ -5,120 +5,175 @@
 #include "utils.h"
 
 TEST("linked list", {
-  UNIT("add node", {
-    Node *head = NULL;
-
-    head = createNode(1);
-
-    ASSERT(readHead(head), 1);
-    ASSERT(readTail(head), 1);
+  UNIT("create linked list", {
+    LinkedList *list = createLinkedList();
+    ASSERT(list->size, 0);
+    ASSERT(list->head, NULL);
+    ASSERT(list->tail, NULL);
+    ASSERT(list->_garbage, NULL);
+    ASSERT(list->_garbage_size, 0);
   });
 
-  UNIT("read tail", {
-    Node *head = createNode(0);
-    head = insertTail(head, 1);
-    head = insertTail(head, 2);
+  UNIT("add new node to list", {
+    LinkedList *list = createLinkedList();
+    Node *node = createNode(list, 10);
 
-    ASSERT(readTail(head), 2);
+    ASSERT(node->data, 10);
+    ASSERT(node->next, NULL);
   });
 
-  UNIT("read head", {
-    Node *head = createNode(1);
-    head = insertTail(head, 2);
-    head = insertTail(head, 3);
+  UNIT("read data at tail", {
+    LinkedList *list = createLinkedList();
 
-    ASSERT(readHead(head), 1);
-  });
-
-  UNIT("read at index", {
-    Node *head = createNode(1);
-    head = insertTail(head, 2);
-    head = insertTail(head, 3);
-
-    ASSERT(readAtIndex(head, 1), 2);
-  });
-
-  UNIT("insert at tail", {
-    Node *head = createNode(0);
-
-    for (int i = 1; i < 5; i++) {
-      head = insertTail(head, i);
+    for (int i = 1; i <= 3; i++) {
+      insertTail(list, i * 10);
     }
 
-    for (int i = 0; i < 5; i++) {
-      ASSERT(readAtIndex(head, i), i);
-    }
+    ASSERT(readTail(list), 30);
   });
 
-  UNIT("insert at head", {
-    Node *head = createNode(0);
+  UNIT("read data at head", {
+    LinkedList *list = createLinkedList();
 
-    for (int i = 1; i < 5; i++) {
-      head = insertHead(head, i);
+    for (int i = 1; i <= 3; i++) {
+      insertTail(list, i * 10);
     }
 
-    for (int i = 0; i < 5; i++) {
-      ASSERT(readAtIndex(head, i), 4 - i);
+    ASSERT(readHead(list), 10);
+  });
+
+  UNIT("read data at index", {
+    LinkedList *list = createLinkedList();
+
+    for (int i = 1; i <= 3; i++) {
+      insertTail(list, i * 10);
+    }
+
+    for (int i = 1; i <= 3; i++) {
+      ASSERT(readAtIndex(list, i - 1), i * 10);
     }
   });
 
-  UNIT("insert at index", {
-    Node *head = createNode(0);
+  UNIT("insert node at tail", {
+    LinkedList *list = createLinkedList();
 
-    for (int i = 1; i < 5; i++) {
-      head = insertTail(head, i);
+    for (int i = 1; i <= 3; i++) {
+      insertTail(list, i * 10);
     }
 
-    head = insertAtIndex(head, 5, 2);
+    ASSERT(list->size, 3);
 
-    int nums[] = {0, 1, 5, 2, 3, 4};
-
-    for (int i = 0; i < 6; i++) {
-      ASSERT(readAtIndex(head, i), nums[i]);
+    for (int i = 1; i <= 3; i++) {
+      ASSERT(readAtIndex(list, i - 1), i * 10);
     }
+
+    ASSERT(list->tail->data, 30);
   });
 
-  UNIT("delete from tail", {
-    Node *head = createNode(0);
+  UNIT("insert node at head", {
+    LinkedList *list = createLinkedList();
 
-    for (int i = 1; i < 5; i++) {
-      head = insertTail(head, i);
+    for (int i = 1; i <= 3; i++) {
+      insertHead(list, i * 10);
     }
 
-    head = deleteTail(head);
+    ASSERT(list->size, 3);
 
-    for (int i = 0; i < 4; i++) {
-      ASSERT(readAtIndex(head, i), i);
+    for (int i = 1; i <= 3; i++) {
+      ASSERT(readAtIndex(list, i - 1), (4 - i) * 10);
     }
+
+    ASSERT(list->head->data, 30);
   });
 
-  UNIT("delete from head", {
-    Node *head = createNode(0);
+  UNIT("insert node at index", {
+    LinkedList *list = createLinkedList();
 
-    for (int i = 1; i < 5; i++) {
-      head = insertTail(head, i);
+    for (int i = 1; i <= 3; i++) {
+      insertTail(list, i * 10);
     }
 
-    head = deleteHead(head);
+    insertAtIndex(list, 40, 1);
 
-    for (int i = 0; i < 4; i++) {
-      ASSERT(readAtIndex(head, i), i + 1);
-    }
+    ASSERT(list->size, 4);
+
+    ASSERT(readAtIndex(list, 1), 40);
   });
 
-  UNIT("delete from index", {
-    Node *head = createNode(0);
+  UNIT("delete node from tail", {
+    LinkedList *list = createLinkedList();
 
-    for (int i = 1; i < 5; i++) {
-      head = insertTail(head, i);
+    for (int i = 1; i <= 3; i++) {
+      insertTail(list, i * 10);
     }
 
-    head = deleteAtIndex(head, 2);
+    deleteTail(list);
 
-    int nums[] = {0, 1, 3, 4};
+    ASSERT(list->size, 2);
 
-    for (int i = 0; i < 4; i++) {
-      ASSERT(readAtIndex(head, i), nums[i]);
+    ASSERT(readAtIndex(list, 1), 20);
+
+    ASSERT(list->_garbage->data, 30);
+    ASSERT(list->_garbage_size, 1);
+  });
+
+  UNIT("delete node from head", {
+    LinkedList *list = createLinkedList();
+
+    for (int i = 1; i <= 3; i++) {
+      insertTail(list, i * 10);
     }
+
+    deleteHead(list);
+
+    ASSERT(list->size, 2);
+
+    ASSERT(readAtIndex(list, 0), 20);
+
+    ASSERT(list->_garbage->data, 10);
+    ASSERT(list->_garbage_size, 1);
+  });
+
+  UNIT("delete node from index", {
+    LinkedList *list = createLinkedList();
+
+    for (int i = 1; i <= 3; i++) {
+      insertTail(list, i * 10);
+    }
+
+    deleteAtIndex(list, 1);
+
+    ASSERT(list->size, 2);
+
+    ASSERT(readAtIndex(list, 1), 30);
+
+    ASSERT(list->_garbage->data, 20);
+    ASSERT(list->_garbage_size, 1);
+  });
+
+  UNIT("find node", {
+    LinkedList *list = createLinkedList();
+
+    for (int i = 1; i <= 3; i++) {
+      insertTail(list, i * 10);
+    }
+
+    Node *node = findNode(list, 20);
+
+    ASSERT(node->data, 20);
+  });
+
+  UNIT("print nodes", {
+    LinkedList *list = createLinkedList();
+
+    for (int i = 1; i <= 8; i++) {
+      insertTail(list, i * 10);
+    }
+
+    for (int i = 1; i <= 4; i++) {
+      deleteHead(list);
+    }
+
+    printNodes(list);
   });
 })
