@@ -162,18 +162,4 @@ TEST("linked list", {
 
     ASSERT(node->data, 20);
   });
-
-  UNIT("print nodes", {
-    LinkedList *list = createLinkedList();
-
-    for (int i = 1; i <= 8; i++) {
-      insertTail(list, i * 10);
-    }
-
-    for (int i = 1; i <= 4; i++) {
-      deleteHead(list);
-    }
-
-    printNodes(list);
-  });
 })
